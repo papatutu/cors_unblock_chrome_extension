@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CORS Unblock Icon Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .icon-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .icon-item {
+      text-align: center;
+    }
+    button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    h1 {
+      color: #2196F3;
+    }
+  </style>
+</head>
+<body>
+  <h1>CORS Unblock Icon Generator</h1>
+  <p>Click the buttons below to download the dummy icons for your extension:</p>
+  
+  <div class="icon-container">
+    <div class="icon-item">
+      <h3>16x16</h3>
+      <canvas id="canvas16" width="16" height="16"></canvas><br>
+      <button onclick="downloadIcon(16)">Download icon16.png</button>
+      <button onclick="downloadDisabledIcon(16)">Download icon_disabled16.png</button>
+    </div>
+    
+    <div class="icon-item">
+      <h3>32x32</h3>
+      <canvas id="canvas32" width="32" height="32"></canvas><br>
+      <button onclick="downloadIcon(32)">Download icon32.png</button>
+      <button onclick="downloadDisabledIcon(32)">Download icon_disabled32.png</button>
+    </div>
+    
+    <div class="icon-item">
+      <h3>48x48</h3>
+      <canvas id="canvas48" width="48" height="48"></canvas><br>
+      <button onclick="downloadIcon(48)">Download icon48.png</button>
+      <button onclick="downloadDisabledIcon(48)">Download icon_disabled48.png</button>
+    </div>
+    
+    <div class="icon-item">
+      <h3>128x128</h3>
+      <canvas id="canvas128" width="128" height="128"></canvas><br>
+      <button onclick="downloadIcon(128)">Download icon128.png</button>
+      <button onclick="downloadDisabledIcon(128)">Download icon_disabled128.png</button>
+    </div>
+  </div>
+  
+  <script>
+    // Function to draw the icons
+    function drawIcons(disabled = false) {
+      const sizes = [16, 32, 48, 128];
+      
+      sizes.forEach(size => {
+        const canvas = document.getElementById(`canvas${size}`);
+        const ctx = canvas.getContext('2d');
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, size, size);
+        
+        // Background circle
+        ctx.beginPath();
+        ctx.arc(size/2, size/2, size/2 - 1, 0, 2 * Math.PI);
+        ctx.fillStyle = disabled ? '#AAAAAA' : '#2196F3';
+        ctx.fill();
+        
+        // Border
+        ctx.strokeStyle = disabled ? '#666666' : '#0D47A1';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        // Draw "C" for CORS
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = `bold ${Math.floor(size * 0.6)}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('C', size/2, size/2);
+        
+        // Draw crossed lines if disabled
+        if (disabled) {
+          ctx.beginPath();
+          ctx.strokeStyle = '#FF0000';
+          ctx.lineWidth = Math.max(1, size/16);
+          ctx.moveTo(size*0.2, size*0.2);
+          ctx.lineTo(size*0.8, size*0.8);
+          ctx.moveTo(size*0.8, size*0.2);
+          ctx.lineTo(size*0.2, size*0.8);
+          ctx.stroke();
+        }
+      });
+    }
+    
+    // Function to download an icon
+    function downloadIcon(size) {
+      const canvas = document.getElementById(`canvas${size}`);
+      const link = document.createElement('a');
+      link.download = `icon${size}.png`;
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    
+    // Function to download a disabled icon
+    function downloadDisabledIcon(size) {
+      const canvas = document.getElementById(`canvas${size}`);
+      const ctx = canvas.getContext('2d');
+      
+      // Save the current state
+      ctx.save();
+      
+      // Draw disabled icon
+      drawIcons(true);
+      
+      // Download
+      const link = document.createElement('a');
+      link.download = `icon_disabled${size}.png`;
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Restore the original state
+      ctx.restore();
+      
+      // Redraw the regular icons
+      drawIcons();
+    }
+    
+    // Initialize icons on page load
+    window.onload = function() {
+      drawIcons();
+    };
+  </script>
+</body>
+</html>

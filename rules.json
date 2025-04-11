@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "responseHeaders": [
+        { "header": "Access-Control-Allow-Origin", "operation": "set", "value": "*" },
+        { "header": "Access-Control-Allow-Methods", "operation": "set", "value": "GET, PUT, POST, DELETE, HEAD, OPTIONS, PATCH, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK" },
+        { "header": "Access-Control-Allow-Headers", "operation": "set", "value": "*" },
+        { "header": "Access-Control-Allow-Credentials", "operation": "set", "value": "true" },
+        { "header": "Access-Control-Max-Age", "operation": "set", "value": "1728000" },
+        { "header": "Cross-Origin-Resource-Policy", "operation": "set", "value": "cross-origin" },
+        { "header": "Cross-Origin-Embedder-Policy", "operation": "set", "value": "credentialless" }
+      ]
+    },
+    "condition": {
+      "urlFilter": "*",
+      "resourceTypes": [
+        "csp_report", "font", "image", "main_frame", "media", "object", 
+        "other", "ping", "script", "stylesheet", "sub_frame", 
+        "webbundle", "websocket", "webtransport", "xmlhttprequest"
+      ]
+    }
+  }
+]
