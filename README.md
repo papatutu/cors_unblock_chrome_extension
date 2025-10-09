@@ -80,3 +80,36 @@ MIT License - See LICENSE file for details
 ## Disclaimer
 
 This extension is intended for development and testing purposes only. Using it in production environments may pose security risks by bypassing security mechanisms designed to protect your browser and data. Use at your own risk.
+
+## Flutter Web Development
+
+If you're developing Flutter web applications and want to use Chrome extensions (like this CORS unblock extension) during debugging, you can use the provided script to enable extensions in Flutter's Chrome debug mode.
+
+### Enable Chrome Extensions in Flutter Debug
+
+Flutter by default disables Chrome extensions when launching Chrome for debugging. To enable extensions:
+
+1. Make the script executable:
+   ```bash
+   chmod +x scripts/enable_extension_flutter_debug.sh
+   ```
+
+2. Run the script:
+   ```bash
+   ./scripts/enable_extension_flutter_debug.sh
+   ```
+
+This script will:
+- Find your Flutter installation directory
+- Delete `flutter_tools.stamp` and `flutter_tools.snapshot` files to trigger a Flutter tools rebuild
+- Remove `--disable-extension` flags from Chrome debug launch configurations
+- Enable Chrome extensions in Flutter web debug mode
+
+After running the script, the next time you run `flutter run -d chrome` or debug your Flutter web app, Chrome extensions will be enabled and you can use this CORS unblock extension during development.
+
+### Manual Alternative
+
+If you prefer to manually enable extensions, you can:
+1. Delete the `flutter_tools.stamp` file in your Flutter installation's `bin/cache/` directory
+2. Modify Flutter's Chrome launch configuration to remove the `--disable-extensions` flag
+3. Run `flutter clean` and restart your Flutter web debug session
